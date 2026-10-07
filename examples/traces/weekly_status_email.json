@@ -1,0 +1,36 @@
+{
+  "id": "trace-001",
+  "title": "Draft a weekly status email from bullet points",
+  "metadata": {
+    "author": "anany",
+    "created_at": "2026-09-14T10:00:00Z",
+    "source": "manual"
+  },
+  "steps": [
+    {
+      "role": "user",
+      "content": "I need to send a weekly status email to my manager. Here are my bullet points: finished auth module, fixed 3 bugs in payment flow, unblocked the mobile team on the API spec. Can you turn this into a proper email?",
+      "timestamp": "2026-09-14T10:00:01Z"
+    },
+    {
+      "role": "assistant",
+      "content": "Sure! Here's a draft:\n\nSubject: Weekly Status Update — Week of Sept 14\n\nHi [Manager],\n\nHere's a quick summary of this week's progress:\n\n- Completed the authentication module implementation\n- Resolved 3 bugs in the payment processing flow\n- Unblocked the mobile team by finalizing the API specification\n\nLet me know if you'd like more detail on any of these.\n\nBest,\n[Your name]",
+      "timestamp": "2026-09-14T10:00:05Z"
+    },
+    {
+      "role": "user",
+      "content": "Perfect. Can you also make it a bit more formal and add a section for blockers? I have none this week.",
+      "timestamp": "2026-09-14T10:00:30Z"
+    },
+    {
+      "role": "assistant",
+      "content": "Subject: Weekly Status Update — Week of September 14, 2026\n\nDear [Manager],\n\nPlease find below my weekly status update.\n\n**Completed This Week**\n- Authentication module implementation finalized\n- Resolved three defects in the payment processing workflow\n- Unblocked the mobile engineering team by delivering the finalized API specification\n\n**Blockers**\nNone at this time.\n\nPlease do not hesitate to reach out should you require additional detail.\n\nKind regards,\n[Your name]",
+      "timestamp": "2026-09-14T10:00:45Z"
+    },
+    {
+      "role": "user",
+      "content": "Great, that's exactly what I needed.",
+      "timestamp": "2026-09-14T10:01:00Z"
+    }
+  ]
+}
