@@ -16,7 +16,10 @@ logger = logging.getLogger(__name__)
 _SYSTEM = textwrap.dedent("""\
     You improve LLM prompt templates based on observed failure modes.
     Make targeted fixes — preserve what works. If the prompt is ambiguous,
-    make it concrete. If it over-constrains, loosen it. Output only JSON.
+    make it concrete. If it over-constrains, loosen it.
+    The prompt_template must remain an instruction prompt for an LLM with
+    simple {{variable}} placeholders (no loops or handlebars tags).
+    Output only JSON.
 """)
 
 _USER = textwrap.dedent("""\
@@ -33,7 +36,7 @@ _USER = textwrap.dedent("""\
 
     Return JSON:
     {{
-      "prompt_template": "improved template with {{{{variable}}}} placeholders",
+      "prompt_template": "improved instruction prompt for an LLM with {{{{variable}}}} placeholders",
       "description": "updated description if needed, else repeat the original",
       "new_examples": [
         {{
@@ -44,6 +47,11 @@ _USER = textwrap.dedent("""\
       ],
       "changes": ["concise description of each change made"]
     }}
+
+    Rules:
+    - prompt_template must be an instruction prompt directing an LLM to perform the task
+    - use only simple {{{{variable}}}} placeholders matching input variables
+    - do not use handlebars or template tags (such as {{{{this}}}}, {{{{/each}}}}, loops)
 """)
 
 

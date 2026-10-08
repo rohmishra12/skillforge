@@ -63,11 +63,44 @@ class Skill:
     updated_at: str = field(default_factory=_now)
 
     def render(self, inputs: dict[str, Any]) -> str:
-        """Substitute {{key}} placeholders with values from inputs."""
+        """Substitute {{key}} placeholders with formatted values from inputs."""
+        import re
+
         result = self.prompt_template
+
+        # Support basic {{#each list_var}}...{{/each}} templates if generated
+        def _replace_each(match: re.Match) -> str:
+            var_name = match.group(1)
+            body = match.group(2)
+            items = inputs.get(var_name)
+            if isinstance(items, list):
+                return "".join(body.replace("{{this}}", str(item)) for item in items)
+            return match.group(0)
+
+        result = re.sub(
+            r"\{\{#each\s+([a-zA-Z0-9_]+)\}\}(.*?)\{\{/each\}\}",
+            _replace_each,
+            result,
+            flags=re.DOTALL,
+        )
+
         for key, value in inputs.items():
-            result = result.replace(f"{{{{{key}}}}}", str(value))
+            result = result.replace(f"{{{{{key}}}}}", self._format_value(value))
         return result
+
+    @staticmethod
+    def _format_value(value: Any) -> str:
+        if isinstance(value, list):
+            if not value:
+                return ""
+            if all(isinstance(x, (str, int, float, bool)) for x in value):
+                return "\n".join(f"- {x}" for x in value)
+            import json
+            return json.dumps(value, indent=2)
+        if isinstance(value, dict):
+            import json
+            return json.dumps(value, indent=2)
+        return str(value)
 
     def to_dict(self) -> dict[str, Any]:
         return {

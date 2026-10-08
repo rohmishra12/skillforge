@@ -13,10 +13,12 @@ from ..models import Skill, SkillExample
 logger = logging.getLogger(__name__)
 
 _SYSTEM = textwrap.dedent("""\
-    You write production-quality, parameterized LLM prompt templates.
-    A good template is specific enough to be useful and general enough
-    to work across the full range of valid inputs. Use {{variable}} for
-    interpolated values. Respond only with the JSON schema requested.
+    You synthesize production-ready LLM skills from workflow observations.
+    A skill's prompt_template is an instruction prompt given to an LLM to
+    execute a task on new inputs.
+    Use simple {{variable_name}} placeholders corresponding to keys in input_schema.
+    Do NOT use template logic or control tags such as {{#each}}, {{#if}}, or loops.
+    Respond only with the JSON schema requested.
 """)
 
 _USER = textwrap.dedent("""\
@@ -28,7 +30,7 @@ _USER = textwrap.dedent("""\
     {{
       "name": "snake_case_name",
       "description": "one sentence — what it does and when to use it",
-      "prompt_template": "complete prompt with {{{{variable}}}} placeholders",
+      "prompt_template": "complete instruction prompt for an LLM with {{{{variable}}}} placeholders",
       "input_schema": {{
         "type": "object",
         "properties": {{
@@ -47,8 +49,10 @@ _USER = textwrap.dedent("""\
     }}
 
     Rules:
-    - prompt_template must be complete and self-contained
-    - provide at least 2 examples that exercise different input ranges
+    - prompt_template must be an instruction prompt directing an LLM to perform the task (e.g. "Draft a ... based on {{input_var}}")
+    - prompt_template is NOT the raw final output text itself; it is the prompt that instructs the LLM what to create
+    - only use simple {{{{variable_name}}}} placeholders matching keys in input_schema (do NOT use loops, handlebars, or template tags)
+    - provide at least 2 realistic examples that exercise different valid inputs
     - do not invent functionality not present in the observation
 """)
 

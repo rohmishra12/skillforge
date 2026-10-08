@@ -69,6 +69,16 @@ class TestSkillRender:
         skill = make_skill(prompt_template="Static prompt.")
         assert skill.render({}) == "Static prompt."
 
+    def test_formats_list_as_bullet_points(self):
+        skill = make_skill(prompt_template="Tasks:\n{{tasks}}")
+        result = skill.render({"tasks": ["task 1", "task 2"]})
+        assert result == "Tasks:\n- task 1\n- task 2"
+
+    def test_handles_each_block_fallback(self):
+        skill = make_skill(prompt_template="Items:\n{{#each items}}- {{this}}\n{{/each}}")
+        result = skill.render({"items": ["apple", "banana"]})
+        assert "Items:\n- apple\n- banana\n" in result
+
 
 class TestTrace:
     def test_tool_step_preserves_args(self):

@@ -112,7 +112,7 @@ class ValidatorAgent:
                     description=skill.description,
                     input=json.dumps(inputs, indent=2),
                     expected=expected,
-                    actual=actual[:1000],
+                    actual=actual[:3000],
                 ),
             },
         ]
