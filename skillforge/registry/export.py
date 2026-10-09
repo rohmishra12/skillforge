@@ -5,7 +5,7 @@ Produces a JSONL file per the HF datasets convention, plus a dataset card (READM
 
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from ..models import Skill
 
 
@@ -25,7 +25,7 @@ pretty_name: SkillForge Skill Dataset
 
 # SkillForge Skill Dataset
 
-This dataset was exported from [SkillForge](https://github.com/yourusername/skillforge),
+This dataset was exported from [SkillForge](https://github.com/rohmishra12/skillforge),
 a trace-to-skill distillation engine.
 
 ## Dataset Description
@@ -107,7 +107,7 @@ def export_to_huggingface(
     readme_path = output_dir / "README.md"
     readme_path.write_text(
         DATASET_CARD_TEMPLATE.format(
-            export_date=datetime.utcnow().strftime("%Y-%m-%d"),
+            export_date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             total_skills=len(qualified),
         ),
         encoding="utf-8",

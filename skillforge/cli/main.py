@@ -97,21 +97,27 @@ def list_skills(min_score: float) -> None:
     click.echo(f"\n{len(skills)} skill(s)")
 
 
+def _resolve_skill(registry: SkillRegistry, skill_id: str):
+    """Lookup a skill by exact ID or unique prefix."""
+    skill = registry.get(skill_id)
+    if skill is not None:
+        return skill
+
+    matches = [s for s in registry.list_all() if s.id.startswith(skill_id)]
+    if len(matches) == 1:
+        return matches[0]
+    if len(matches) > 1:
+        click.echo(f"Ambiguous prefix — matches: {[s.id[:8] for s in matches]}", err=True)
+        sys.exit(1)
+    return None
+
+
 @cli.command()
 @click.argument("skill_id")
 def show(skill_id: str) -> None:
     """Print a skill's full JSON."""
     registry = SkillRegistry()
-    skill = registry.get(skill_id)
-    if skill is None:
-        # try prefix match
-        matches = [s for s in registry.list_all() if s.id.startswith(skill_id)]
-        if len(matches) == 1:
-            skill = matches[0]
-        elif len(matches) > 1:
-            click.echo(f"Ambiguous prefix — matches: {[s.id[:8] for s in matches]}", err=True)
-            sys.exit(1)
-
+    skill = _resolve_skill(registry, skill_id)
     if skill is None:
         click.echo(f"Skill '{skill_id}' not found.", err=True)
         sys.exit(1)
@@ -126,7 +132,7 @@ def test(skill_id: str, verbose: bool) -> None:
     """Re-run validation on an existing skill."""
     _configure_logging(verbose)
     registry = SkillRegistry()
-    skill = registry.get(skill_id)
+    skill = _resolve_skill(registry, skill_id)
     if skill is None:
         click.echo(f"Skill '{skill_id}' not found.", err=True)
         sys.exit(1)
@@ -180,10 +186,16 @@ def search(query: str) -> None:
 @click.option("--yes", is_flag=True, help="Skip confirmation")
 def delete(skill_id: str, yes: bool) -> None:
     """Delete a skill from the registry."""
-    if not yes:
-        click.confirm(f"Delete '{skill_id}'?", abort=True)
-    if SkillRegistry().delete(skill_id):
-        click.echo(f"deleted {skill_id}")
-    else:
+    registry = SkillRegistry()
+    skill = _resolve_skill(registry, skill_id)
+    if skill is None:
         click.echo(f"'{skill_id}' not found.", err=True)
+        sys.exit(1)
+
+    if not yes:
+        click.confirm(f"Delete '{skill.name}' ({skill.id[:8]})?", abort=True)
+    if registry.delete(skill.id):
+        click.echo(f"deleted {skill.id}")
+    else:
+        click.echo(f"'{skill.id}' not found.", err=True)
         sys.exit(1)
