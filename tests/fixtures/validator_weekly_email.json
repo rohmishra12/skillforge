@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "agent": "validator",
+    "skill_name": "draft_weekly_status_email",
+    "model": "gpt-4o-mini",
+    "recorded_at": "2026-10-08T20:13:14Z"
+  },
+  "execution_responses": [
+    "Dear John Doe,\n\nI hope this message finds you well. Below is my weekly status update for the week of September 14, 2026.\n\n**Completed This Week**\n- Finished auth module\n- Fixed 3 bugs in payment flow\n- Unblocked the mobile team on the API spec\n\n**Blockers**\nNone at this time.\n\nPlease do not hesitate to reach out should you require additional detail.\n\nKind regards,\nJane Smith",
+    "Dear Alice Johnson,\n\nI hope this message finds you well. Below is my weekly status update for the week of October 21, 2026.\n\n**Completed This Week**\n- Completed user testing\n- Prepared presentation for stakeholders\n\n**Blockers**\nNone at this time.\n\nPlease do not hesitate to reach out should you require additional detail.\n\nKind regards,\nBob Brown"
+  ],
+  "judge_responses": [
+    {
+      "score": 1.0,
+      "reasoning": "The email is formal, addressed to the correct manager, includes all bullet points, has a Blockers section, and is signed correctly.",
+      "issues": []
+    },
+    {
+      "score": 1.0,
+      "reasoning": "The email is formal, addressed to the correct manager, includes all bullet points, has a Blockers section, and is signed correctly.",
+      "issues": []
+    }
+  ],
+  "adversarial_cases": [
+    {
+      "input": {"bullet_points": "", "week_date": "October 1, 2026", "manager_name": "Test Manager", "your_name": "Tester"},
+      "rationale": "Empty bullet_points string - tests graceful handling of no content"
+    },
+    {
+      "input": {"bullet_points": "task one task two task three task four task five", "week_date": "October 1, 2026", "manager_name": "Test Manager", "your_name": "Tester"},
+      "rationale": "Multiple bullet points - tests handling of several items"
+    },
+    {
+      "input": {"bullet_points": "task 1", "week_date": "", "manager_name": "", "your_name": ""},
+      "rationale": "Empty optional fields - tests email still renders without personalization"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "agent": "observer",
+    "trace_title": "Draft a weekly status email from bullet points",
+    "model": "gpt-4o-mini",
+    "recorded_at": "2026-10-08T06:04:07Z"
+  },
+  "request": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "You extract the reusable, parameterized intent from a noisy execution trace.\nStrip out errors, retries, and one-off details. Focus on what a practitioner\nwould need to reproduce the outcome on different inputs.\nRespond only with the JSON schema requested — no commentary.\n"
+      },
+      {
+        "role": "user",
+        "content": "Trace title: Draft a weekly status email from bullet points"
+      }
+    ]
+  },
+  "response": {
+    "goal": "Draft a formal weekly status email from provided bullet points.",
+    "input_variables": [
+      {"name": "bullet_points", "description": "List of accomplishments and updates for the week.", "example": "finished auth module, fixed 3 bugs in payment flow"},
+      {"name": "manager_name", "description": "Name of the manager to address.", "example": "John Doe"},
+      {"name": "week_date", "description": "The week date for the status update.", "example": "September 14, 2026"},
+      {"name": "sender_name", "description": "Name of the person sending the email.", "example": "Jane Smith"}
+    ],
+    "key_steps": [
+      {"step": 1, "action": "Receive bullet points from the user", "why": "These form the core content of the email."},
+      {"step": 2, "action": "Draft a formal email with an accomplishments section and a blockers section", "why": "Provides structure the manager expects."},
+      {"step": 3, "action": "Sign the email with the sender's name", "why": "Personalizes the output."}
+    ],
+    "output_description": "A formal weekly status update email addressed to the manager.",
+    "constraints": ["Email must be formal in tone", "Must include a Blockers section even if empty"],
+    "tags": ["email", "status update", "communication", "professional"],
+    "source_trace_id": "trace-001"
+  }
+}

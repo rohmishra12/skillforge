@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "agent": "optimizer",
+    "skill_name": "draft_weekly_status_email",
+    "model": "gpt-4o-mini",
+    "recorded_at": "2026-10-08T20:13:44Z"
+  },
+  "request": {
+    "score": 0.10,
+    "failure_modes": [
+      "Output did not include a Blockers section",
+      "Email was not formal in tone",
+      "Bullet points were not properly formatted",
+      "Missing sender signature"
+    ]
+  },
+  "response": {
+    "prompt_template": "Draft a formal weekly status email addressed to {{manager_name}} for the week of {{week_date}}. Include the following key accomplishments and updates as a bulleted list: {{bullet_points}}. Include a 'Blockers' section — state 'None at this time.' if there are no blockers. Close the email formally and sign with {{your_name}}.",
+    "description": "Drafts a formal weekly status email from provided bullet points, with mandatory blockers section and formal sign-off.",
+    "new_examples": [
+      {
+        "input": {
+          "bullet_points": "Deployed hotfix for login bug, reviewed 3 PRs",
+          "week_date": "October 7, 2026",
+          "manager_name": "Sarah Lee",
+          "your_name": "Dev Team"
+        },
+        "expected_output": "A formal email with the hotfix and PR review as accomplishments, a Blockers section saying None, signed by Dev Team.",
+        "description": "Example covering a hotfix deployment week."
+      }
+    ],
+    "changes": [
+      "Made blockers section mandatory with explicit fallback text",
+      "Explicitly requested formal closing",
+      "Clarified bullet_points should render as a bulleted list"
+    ]
+  }
+}

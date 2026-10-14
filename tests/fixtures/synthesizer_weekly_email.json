@@ -1,0 +1,66 @@
+{
+  "metadata": {
+    "agent": "synthesizer",
+    "skill_name": "draft_weekly_status_email",
+    "model": "gpt-4o-mini",
+    "recorded_at": "2026-10-08T20:13:07Z"
+  },
+  "request": {
+    "observation": {
+      "goal": "Draft a formal weekly status email from provided bullet points.",
+      "input_variables": [
+        {"name": "bullet_points", "description": "List of accomplishments.", "example": "finished auth module"},
+        {"name": "manager_name", "description": "Name of the manager.", "example": "John Doe"},
+        {"name": "week_date", "description": "Week date.", "example": "September 14, 2026"},
+        {"name": "your_name", "description": "Sender name.", "example": "Jane Smith"}
+      ],
+      "key_steps": [
+        {"step": 1, "action": "Receive bullet points", "why": "Core email content"},
+        {"step": 2, "action": "Draft formal email with blockers section", "why": "Structure expected by manager"},
+        {"step": 3, "action": "Sign with sender name", "why": "Personalizes output"}
+      ],
+      "output_description": "A formal weekly status update email addressed to the manager.",
+      "constraints": ["Formal tone", "Include Blockers section even if empty"],
+      "tags": ["email", "status update", "communication"],
+      "source_trace_id": "trace-001"
+    }
+  },
+  "response": {
+    "name": "draft_weekly_status_email",
+    "description": "Drafts a formal weekly status email from provided bullet points.",
+    "prompt_template": "Draft a formal weekly status email addressed to {{manager_name}} for the week of {{week_date}}. Include the following key accomplishments and updates: {{bullet_points}}. Also, include a section for blockers, even if none exist. Sign the email with {{your_name}}.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "bullet_points": {"type": "string", "description": "Key accomplishments and updates to include in the email."},
+        "week_date": {"type": "string", "description": "The week date to reference in the email subject."},
+        "manager_name": {"type": "string", "description": "The name of the manager to whom the email is addressed."},
+        "your_name": {"type": "string", "description": "The name of the sender of the email."}
+      },
+      "required": ["bullet_points", "week_date", "manager_name", "your_name"]
+    },
+    "examples": [
+      {
+        "input": {
+          "bullet_points": "finished auth module, fixed 3 bugs in payment flow, unblocked the mobile team on the API spec.",
+          "week_date": "September 14, 2026",
+          "manager_name": "John Doe",
+          "your_name": "Jane Smith"
+        },
+        "expected_output": "A formal email summarizing the accomplishments and blockers for the week of September 14, 2026, addressed to John Doe and signed by Jane Smith.",
+        "description": "Example with multiple accomplishments."
+      },
+      {
+        "input": {
+          "bullet_points": "completed user testing, prepared presentation for stakeholders.",
+          "week_date": "October 21, 2026",
+          "manager_name": "Alice Johnson",
+          "your_name": "Bob Brown"
+        },
+        "expected_output": "A formal email summarizing the accomplishments and blockers for the week of October 21, 2026, addressed to Alice Johnson and signed by Bob Brown.",
+        "description": "Example with fewer accomplishments."
+      }
+    ],
+    "tags": ["email", "status update", "communication", "professional"]
+  }
+}
