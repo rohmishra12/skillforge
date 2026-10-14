@@ -33,7 +33,7 @@ Each record is a verified, reusable skill synthesized from execution traces.
 | examples | list | Input/output example pairs |
 | tags | list | Topic tags |
 | version | string | Skill version |
-| validation_score | float | 0.0–1.0 quality score from ValidatorAgent |
+| validation_score | float | 0.0-1.0 quality score from ValidatorAgent |
 
 ## Usage
 
@@ -48,13 +48,13 @@ for skill in ds["train"]:
 ## Citation
 
 ```bibtex
-@software{skillforge2025,
+@software{skillforge2026,
   author = {SkillForge Contributors},
   title = {SkillForge: Trace-to-Skill Distillation Engine},
-  year = {2025},
+  year = {2026},
   url = {https://github.com/rohmishra12/skillforge}
 }
 ```
 
-Exported: 2026-10-09
+Exported: 2026-10-14
 Total skills: 2
